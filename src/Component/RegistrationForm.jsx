@@ -1,0 +1,132 @@
+// RegistrationForm.js
+import React, { useState } from "react";
+import {
+  Button,
+  Container,
+  HStack,
+  Input,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithPopup,
+} from "firebase/auth";
+import { app } from "../firebase";
+import LoginForm from "./LoginForm";
+import {
+  addDoc,
+  collection,
+  getFirestore,
+  serverTimestamp,
+} from "firebase/firestore";
+import image from "../img/speech-balloon.png";
+
+const RegistrationForm = () => {
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
+  const [loging, setLoging] = useState(false);
+
+  const handleRegistration = async () => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      //  create a collection for user
+
+      const user = userCredential.user;
+      await addDoc(collection(db, "users"), {
+        uid: user.uid,
+        name: name,
+        email: user.email,
+        createdAt: serverTimestamp(),
+      });
+      // You can do additional tasks after registration, such as sending a verification email
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  const handleGoogleLogin = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
+
+  return (
+    <Container h={"100vh"} maxWidth={"container.lg"}>
+      {loging ? (
+        <LoginForm />
+      ) : (
+        <VStack h={"full"} bg={"telegram.200"}>
+          <img
+            src={image}
+            style={{
+              width: "100px",
+              height: "100px",
+              display: "inline",
+              marginTop: "100px",
+            }}
+            alt="logo"
+          />
+          <Text
+            fontSize="3xl"
+            as={"b"}
+            color={"blue.500"}
+            alignItems={"center"}
+            marginBottom={"50px"}
+          >
+            Realtime Chat App
+          </Text>
+          <Text fontSize={"3xl"} as={"b"}>
+            Register
+          </Text>
+          <VStack spacing={4} align="center">
+            <Input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
+              bg={"white"}
+            />
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              bg={"white"}
+            />
+            <Input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Password"
+              bg={"white"}
+            />
+            <HStack>
+              <Button onClick={handleRegistration} colorScheme="purple">
+                Register
+              </Button>
+              <Button onClick={handleGoogleLogin} colorScheme="red">
+                Sign In with Google
+              </Button>
+            </HStack>
+            <Button onClick={() => setLoging(true)}>
+              {" "}
+              Already have an account
+            </Button>
+            {error && <p>{error}</p>}
+          </VStack>
+        </VStack>
+      )}
+    </Container>
+  );
+};
+
+export default RegistrationForm;
