@@ -54,8 +54,9 @@ const RegistrationForm = () => {
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         toast.error("Email already in use!");
+      } else {
+        toast.error("Please check your email and password!");
       }
-      toast.error("Please check your email and password!");
     }
   };
   const handleGoogleLogin = () => {
