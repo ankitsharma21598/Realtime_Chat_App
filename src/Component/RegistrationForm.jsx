@@ -23,6 +23,8 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import image from "../img/speech-balloon.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const RegistrationForm = () => {
   const auth = getAuth(app);
@@ -30,7 +32,6 @@ const RegistrationForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const [loging, setLoging] = useState(false);
 
   const handleRegistration = async () => {
@@ -51,7 +52,10 @@ const RegistrationForm = () => {
       });
       // You can do additional tasks after registration, such as sending a verification email
     } catch (error) {
-      setError(error.message);
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Email already in use!");
+      }
+      toast.error("Please check your email and password!");
     }
   };
   const handleGoogleLogin = () => {
@@ -65,6 +69,7 @@ const RegistrationForm = () => {
         <LoginForm />
       ) : (
         <VStack h={"full"} bg={"telegram.200"}>
+          <ToastContainer position="top-center" />
           <img
             src={image}
             style={{
@@ -121,7 +126,6 @@ const RegistrationForm = () => {
               {" "}
               Already have an account
             </Button>
-            {error && <p>{error}</p>}
           </VStack>
         </VStack>
       )}

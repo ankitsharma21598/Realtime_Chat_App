@@ -18,6 +18,8 @@ import {
 import { app } from "../firebase";
 import RegistrationForm from "./RegistrationForm";
 import image from "../img/speech-balloon.png";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
   const auth = getAuth(app);
@@ -29,7 +31,8 @@ const LoginForm = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      alert(error.message);
+      toast.warn("Please check your email and password!");
+      // alert(error.message);
     }
   };
 
@@ -44,6 +47,7 @@ const LoginForm = () => {
         <RegistrationForm />
       ) : (
         <VStack h={"full"} bg={"telegram.200"}>
+          <ToastContainer position="top-center" />
           <img
             src={image}
             style={{
