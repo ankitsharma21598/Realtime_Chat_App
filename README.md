@@ -2,6 +2,12 @@
 
 This is a simple realtime chat application built with React, Chakra UI, and Firebase. Users can sign in with Google authentication and exchange messages in real-time.
 
+## Live link: https://realtime-chat-app-chi-five.vercel.app/
+
+## Video demo:
+
+https://github.com/ankitsharma21598/Realtime_Chat_App/assets/70301843/c09c9467-b976-4f87-ac29-298cdeb2efa6
+
 ## Features
 
 - User authentication using Google Sign-In.
