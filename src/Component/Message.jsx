@@ -32,10 +32,12 @@ export const Message = ({ text, uri, user = "other", name, time }) => {
         borderRadius={"lg"}
         maxW={"60%"}
       >
-        {user === "other" && <Avatar src={uri} />}
+        {user === "other" && (
+          <Avatar src={uri ? uri : "https://i.imgur.com/DY6gND0.png"} />
+        )}
 
         <Flex direction="column" flex="1" alignSelf={"flex-end"}>
-          <Text fontWeight="bold" mb="1" >
+          <Text fontWeight="bold" mb="1">
             {name ? name : "Anonymous"}:
           </Text>
           <Text>{text}</Text>
