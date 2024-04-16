@@ -91,12 +91,12 @@ const LoginForm = () => {
               </Button>
 
               <Button onClick={handleGoogleLogin} colorScheme="red">
-                Sign In with Google
+                Sign In with Google.
               </Button>
             </HStack>
             <Button onClick={() => setRegistering(true)}>
               {" "}
-              Create new account
+              Create new account.
             </Button>
           </VStack>
         </VStack>
