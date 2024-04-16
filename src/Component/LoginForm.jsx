@@ -68,7 +68,7 @@ const LoginForm = () => {
             Realtime Chat App
           </Text>
           <Text fontSize={"3xl"} as={"b"}>
-            Login to your account
+            Login
           </Text>
           <VStack spacing={4} h={"full"}>
             <Input
